@@ -13,18 +13,21 @@ function onTick()
 	local engine=input.getBool(1)
 	local reverse=input.getBool(2)
 	local wheelSlipProtection=input.getBool(3)
-	local cabinLight=input.getBool(8)
-	local backlights=input.getBool(11)
+	local muMode=input.getBool(7)
 	local cycleSpotlightModes=input.getBool(14)
-	local frontSlip=input.getBool(15)
-	local middleSlip=input.getBool(16)
-	local rearSlip=input.getBool(17)
 	local frontIsConnected=input.getBool(18)
 	local rearIsConnected=input.getBool(19)
 	local engineMU=input.getBool(20)
 	local reverseMU=input.getBool(21)
 	local engineCutoff=input.getBool(22)
+	local wheelSlip=input.getBool(23)
+	local reverserInverter=input.getBool(31)
 
+	throttle=throttle/120
+	if muMode then
+		engine=false
+		engineT=false
+	end
 	-- Disable engine if cutoff is activated
 	if engineCutoff then
 		engine=false
@@ -43,6 +46,12 @@ function onTick()
 	end
 	R=reverse
 
+	if reverserInverter then
+		combinedReverse=not reverseT
+	else
+		combinedReverse=reverseT
+	end
+
 	-- Headlights
 	local frontLightR=0
 	local frontLightG=0
@@ -51,7 +60,7 @@ function onTick()
 	local rearLightG=0
 	local rearLightB=0
 	-- Checking what direction the locomotive is going in and setting headlight color accordingly
-	if (engineT or engineMU) and (reverseT or reverseMU) then
+	if (engineT or engineMU) and (combinedReverse or reverseMU) then
 		frontLightR=rearlightR
 		frontLightG=rearlightG
 		frontLightB=rearlightB
@@ -97,10 +106,10 @@ function onTick()
 	spotlightPivot=-0.5
 	-- Reset counter when it reaches 3
 	if spotlightMode==3 then spotlightMode=0 end
-	-- Turning on front or rear spotlights depending on the spotlightMode counter and reverseT button
-	if spotlightMode==1 and reverseT then
+	-- Turning on front or rear spotlights depending on the spotlightMode counter and combinedReverse button
+	if spotlightMode==1 and combinedReverse then
 		rearSpotlight=true
-	elseif spotlightMode==2 and reverseT then
+	elseif spotlightMode==2 and combinedReverse then
 		rearSpotlight=true
 		spotlightPivot=0.25
 	elseif spotlightMode==1 then
@@ -112,20 +121,13 @@ function onTick()
 	-- Checking if locomotive is connected to train cars, and if it is, turn off the spotlight in that direction
 	if frontIsConnected then
 		frontSpotlight=false
-		spotlightMode=0
 	end
 	if rearIsConnected then
 		rearSpotlight=false
-		spotlightMode=0
 	end
 
-	-- Wheel slip protection
-	local wheelSlip=false
-	if frontSlip or middleSlip or rearSlip then
-		wheelSlip=true
-	end
 	local throttleDown=false
-	if wheelSlip and wheelSlipProtection then
+	if (wheelSlip) and wheelSlipProtection then
 		throttleDown=true
 	end
 
@@ -139,10 +141,9 @@ function onTick()
 	output.setNumber(8,rearLightB)
 	output.setNumber(9,spotlightPivot)
 	output.setBool(1,engineT)
-	output.setBool(2,reverseT)
-	output.setBool(3,backlights)
-	output.setBool(4,cabinLight)
-	output.setBool(5,frontSpotlight)
-	output.setBool(6,rearSpotlight)
-	output.setBool(7,throttleDown)
+	output.setBool(2,combinedReverse)
+	output.setBool(5,wheelSlip)
+	output.setBool(7,frontSpotlight)
+	output.setBool(8,rearSpotlight)
+	output.setBool(9,throttleDown)
 end
