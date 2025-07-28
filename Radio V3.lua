@@ -94,7 +94,7 @@ function onTick()
 
 	if screenMode==0 then
 		local FrqButton=isPressed and isPointInRectangle(inputX,inputY,8,0,15,6)
-		local PTTButton=isPressed and isPointInRectangle(inputX,inputY,8,6,15,6)
+		PTTButton=isPressed and isPointInRectangle(inputX,inputY,8,6,15,6)
 		local DataButton=isPressed and isPointInRectangle(inputX,inputY,5,12,20,6)
 		local MuteButton=isPressed and isPointInRectangle(inputX,inputY,5,18,20,6)
 		if FrqButton then
