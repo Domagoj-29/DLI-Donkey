@@ -1,3 +1,16 @@
+function round(number)
+	number=math.max(-9999,math.min(number,99999))
+	if number>=0 and number<10 then
+		number=tonumber(string.format("%.3f",number))
+	elseif (number>=10 and number<100) or (number>-10 and number<0) then
+		number=tonumber(string.format("%.2f",number))
+	elseif (number>=100 and number<1000) or (number>-100 and number<=-10) then
+		number=tonumber(string.format("%.1f",number))
+	elseif (number>=1000) or (number<=-100) then
+		number=tonumber(string.format("%.0f",number))
+	end
+	return number
+end
 function isPointInRectangle(x, y, rectX, rectY, rectW, rectH)
 	return x > rectX and y > rectY and x < rectX+rectW and y < rectY+rectH
 end
@@ -52,15 +65,15 @@ function onTick()
 	rxNum6=input.getNumber(13)
 	rxNum7=input.getNumber(14)
 	rxNum8=input.getNumber(15)
-	-- Clamp numerical values
-	rxNum1=math.max(-9999,math.min(rxNum1,99999))
-	rxNum2=math.max(-9999,math.min(rxNum2,99999))
-	rxNum3=math.max(-9999,math.min(rxNum3,99999))
-	rxNum4=math.max(-9999,math.min(rxNum4,99999))
-	rxNum5=math.max(-9999,math.min(rxNum5,99999))
-	rxNum6=math.max(-9999,math.min(rxNum6,99999))
-	rxNum7=math.max(-9999,math.min(rxNum7,99999))
-	rxNum8=math.max(-9999,math.min(rxNum8,99999))
+	-- Clamp and round 
+	rxNum1=round(rxNum1)
+	rxNum2=round(rxNum2)
+	rxNum3=round(rxNum3)
+	rxNum4=round(rxNum4)
+	rxNum5=round(rxNum5)
+	rxNum6=round(rxNum6)
+	rxNum7=round(rxNum7)
+	rxNum8=round(rxNum8)
 	uiR=property.getNumber("UI Color R")
 	uiG=property.getNumber("UI Color G")
 	uiB=property.getNumber("UI Color B")
@@ -108,7 +121,7 @@ function onTick()
 		if DataButton then
 			screenMode=2
 		end
-		-- Restets whatever scroll position was previously
+		-- Resets whatever scroll position was previously
 		if not DataButton then k2=0 else k2=k2+1 end
 		if k2==1 then DataPulse=true else DataPulse=false end
 		if DataPulse then
@@ -318,35 +331,35 @@ function onDraw()
 		screen.drawText(1,6+sY2,"1")
 		screen.drawRectF(6,7+sY2,1,1)
 		screen.drawRectF(6,9+sY2,1,1)
-		screen.drawText(8,6+sY2,string.format("%.0f",rxNum1))
+		screen.drawText(8,6+sY2,rxNum1)
 		screen.drawText(1,12+sY2,"2")
 		screen.drawRectF(6,13+sY2,1,1)
 		screen.drawRectF(6,15+sY2,1,1)
-		screen.drawText(8,12+sY2,string.format("%.0f",rxNum2))
+		screen.drawText(8,12+sY2,rxNum2)
 		screen.drawText(1,18+sY2,"3")
 		screen.drawRectF(6,19+sY2,1,1)
 		screen.drawRectF(6,21+sY2,1,1)
-		screen.drawText(8,18+sY2,string.format("%.0f",rxNum3))
+		screen.drawText(8,18+sY2,rxNum3)
 		screen.drawText(1,24+sY2,"4")
 		screen.drawRectF(6,25+sY2,1,1)
 		screen.drawRectF(6,27+sY2,1,1)
-		screen.drawText(8,24+sY2,string.format("%.0f",rxNum4))
+		screen.drawText(8,24+sY2,rxNum4)
 		screen.drawText(1,30+sY2,"5")
 		screen.drawRectF(6,31+sY2,1,1)
 		screen.drawRectF(6,33+sY2,1,1)
-		screen.drawText(8,30+sY2,string.format("%.0f",rxNum5))
+		screen.drawText(8,30+sY2,rxNum5)
 		screen.drawText(1,36+sY2,"6")
 		screen.drawRectF(6,37+sY2,1,1)
 		screen.drawRectF(6,39+sY2,1,1)
-		screen.drawText(8,36+sY2,string.format("%.0f",rxNum6))
+		screen.drawText(8,36+sY2,rxNum6)
 		screen.drawText(1,42+sY2,"7")
 		screen.drawRectF(6,43+sY2,1,1)
 		screen.drawRectF(6,45+sY2,1,1)
-		screen.drawText(8,42+sY2,string.format("%.0f",rxNum7))
+		screen.drawText(8,42+sY2,rxNum7)
 		screen.drawText(1,48+sY2,"8")
 		screen.drawRectF(6,49+sY2,1,1)
 		screen.drawRectF(6,51+sY2,1,1)
-		screen.drawText(8,48+sY2,string.format("%.0f",rxNum8))
+		screen.drawText(8,48+sY2,rxNum8)
 	end
 	if screenMode==0 then
 		-- Frequency Button
@@ -459,42 +472,42 @@ function onDraw()
 		screen.drawText(0,6+sY2,"1")
 		screen.drawRectF(5,7+sY2,1,1)
 		screen.drawRectF(5,9+sY2,1,1)
-		screen.drawText(7,6+sY2,string.format("%.0f",rxNum1))
+		screen.drawText(7,6+sY2,rxNum1)
 		--2:
 		screen.drawText(0,12+sY2,"2")
 		screen.drawRectF(5,13+sY2,1,1)
 		screen.drawRectF(5,15+sY2,1,1)
-		screen.drawText(7,12+sY2,string.format("%.0f",rxNum2))
+		screen.drawText(7,12+sY2,rxNum2)
 		--3:
 		screen.drawText(0,18+sY2,"3")
 		screen.drawRectF(5,19+sY2,1,1)
 		screen.drawRectF(5,21+sY2,1,1)
-		screen.drawText(7,18+sY2,string.format("%.0f",rxNum3))
+		screen.drawText(7,18+sY2,rxNum3)
 		--4:
 		screen.drawText(0,24+sY2,"4")
 		screen.drawRectF(5,25+sY2,1,1)
 		screen.drawRectF(5,27+sY2,1,1)
-		screen.drawText(7,24+sY2,string.format("%.0f",rxNum4))
+		screen.drawText(7,24+sY2,rxNum4)
 		--5:
 		screen.drawText(0,30+sY2,"5")
 		screen.drawRectF(5,31+sY2,1,1)
 		screen.drawRectF(5,33+sY2,1,1)
-		screen.drawText(7,30+sY2,string.format("%.0f",rxNum5))
+		screen.drawText(7,30+sY2,rxNum5)
 		--6:
 		screen.drawText(0,36+sY2,"6")
 		screen.drawRectF(5,37+sY2,1,1)
 		screen.drawRectF(5,39+sY2,1,1)
-		screen.drawText(7,36+sY2,string.format("%.0f",rxNum6))
+		screen.drawText(7,36+sY2,rxNum6)
 		--7:
 		screen.drawText(0,42+sY2,"7")
 		screen.drawRectF(5,43+sY2,1,1)
 		screen.drawRectF(5,45+sY2,1,1)
-		screen.drawText(7,42+sY2,string.format("%.0f",rxNum7))
+		screen.drawText(7,42+sY2,rxNum7)
 		--8:
 		screen.drawText(0,48+sY2,"8")
 		screen.drawRectF(5,49+sY2,1,1)
 		screen.drawRectF(5,51+sY2,1,1)
-		screen.drawText(7,48+sY2,string.format("%.0f",rxNum8))
+		screen.drawText(7,48+sY2,rxNum8)
 		-- Invisible background rectangle
 		screen.setColor(15,15,15)
 		screen.drawRectF(0,0,31,6)
